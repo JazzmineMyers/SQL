@@ -1,0 +1,75 @@
+Dataset Source: https://gist.github.com/pamelafox/b98e03caca7d1ec14394a90ec1512cff
+
+/* Source: https://www.kaggle.com/nasa/astronaut-yearbook */
+
+This dataset contains information about NASA astronauts. It includes their name, year, group number, status, birth date, birth place, gender, alma mater, 
+undergraduate major, graduate major, military rank, military branch, space flights, space flight hours, space walks, space walk hours, missions, death date, 
+and death mission.
+ 
+# With this data, I want to answer the following questions:
+
+#1. What was the graduate major of all female astronauts with a military rank of Colonel?
+SELECT name, Graduate_Major 
+FROM astronauts 
+WHERE Military_Rank = "Colonel" 
+AND Gender = "Female";
+
+#2. What are the genders of all astronauts who had a graduate or undergraduate major of Mathematics?
+SELECT name, gender 
+FROM astronauts 
+WHERE graduate_major = "Mathematics" 
+OR Undergraduate_Major = "Mathematics";
+
+#3. What female astronauts had space flight hours greater than or equal to 2575 hours? How many space flights did they have? How many space walks?
+SELECT name, gender, Space_Flights, Space_Flight_hr, Space_Walks 
+FROM astronauts 
+WHERE gender = "Female" 
+GROUP BY name 
+HAVING Space_Flight_hr >= 2575;
+
+#4. Which female astronauts have at least three space walks?
+SELECT name, gender, space_flights, space_flight_hr, space_walks 
+FROM astronauts 
+WHERE gender = "Female" 
+GROUP BY name 
+HAVING space_walks >=3;
+
+#5. How many female astronauts have a graduate major in Physics, Chemistry, or Engineering?
+SELECT name, graduate_major 
+FROM astronauts 
+WHERE graduate_major IN ('Physics', 'Chemistry', 'Engineering') 
+AND Gender = 'Female';
+
+#6 How many astronauts graduated MIT or have an undergraduate major in Economics?
+SELECT name, gender, Alma_Mater, Undergraduate_Major 
+FROM astronauts 
+WHERE Alma_Mater IN ('MIT') 
+OR Undergraduate_Major IN ('Economics');
+
+#7. Show completed space walks for all female astronauts.
+SELECT name, alma_mater, gender, 
+CASE 
+WHEN space_flights = 0 THEN 'None' 
+WHEN space_flights <=1 THEN 'Few' 
+WHEN space_flights <=3 THEN 'Some' 
+ELSE 'Many' 
+END AS Space_Walks_Completed 
+FROM astronauts 
+WHERE gender = 'Female';
+
+#8. Show completed space flight hours for all astronauts who graduated from Stanford University.
+SELECT name, space_flight_hr, 
+CASE 
+WHEN space_flight_hr = 0 THEN 'None' 
+WHEN space_flight_hr <= 500 THEN 'Few' 
+WHEN space_flight_hr <=1000 THEN 'Some' 
+ELSE 'Many' 
+END AS Space_Flights_Hour_Completed 
+FROM astronauts 
+WHERE alma_mater = 'Stanford University';
+
+#9. What are the top 10 alma maters for average space flight hours?
+SELECT alma_mater, AVG(space_flight_hr)
+FROM astronauts 
+GROUP BY alma_mater
+ORDER BY AVG(space_flight_hr) DESC LIMIT 10;
