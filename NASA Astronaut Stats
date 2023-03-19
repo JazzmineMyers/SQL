@@ -1,12 +1,8 @@
 Dataset Source: https://gist.github.com/pamelafox/b98e03caca7d1ec14394a90ec1512cff
 
 /* Source: https://www.kaggle.com/nasa/astronaut-yearbook */
-
-This dataset contains information about NASA astronauts. It includes their name, year, group number, status, birth date, birth place, gender, alma mater, 
-undergraduate major, graduate major, military rank, military branch, space flights, space flight hours, space walks, space walk hours, missions, death date, 
-and death mission.
  
-# With this data, I want to answer the following questions:
+#In this SQL code, I'm querying a database that's holding NASA astronaut data to answer questions about the data. 
 
 #1. What was the graduate major of all female astronauts with a military rank of Colonel?
 SELECT name, Graduate_Major 
