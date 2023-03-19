@@ -1,0 +1,81 @@
+#Create a table with data about a group of famous people, then create more tables with related data. Query the data to answer
+a few interesting questions about the dataset.
+
+CREATE TABLE actors (id INTEGER PRIMARY KEY AUTOINCREMENT, full_name TEXT, age INTEGER, birth_place TEXT, total_awards INTEGER);
+
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Penelope Cruz", 48, "Spain", 75);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Sarah Michelle Gellar", 45, "United States", 22);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Anna Kendrick", 37, "United States", 18);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Emily Blunt", 40, "United Kingdom", 22);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Mindy Kaling", 43, "United States", 13);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Blake Lively", 35, "United States", 8);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Mila Kunis", 39, "Ukraine", 14);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Aubrey Plaza", 38, "United States", 10);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Ashton Kutcher", 45, "United States", 18);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Henry Cavill", 39, "Jersey", 3);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Javier Bardem", 54, "Spain", 120);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Milo Ventimiglia", 45, "United States", 7);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Ryan Reynolds", 46, "Canada", 21);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Elliot Page", 36, "Canada", 45);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("John Krasinski", 43, "United States", 18);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Jake Johnson", 44, "United States", 2);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Freddie Prinze Jr", 47, "United States", 8);
+INSERT INTO actors (full_name, age, birth_place, total_awards) VALUES ("Pedro Pascal", 47, "Chile", 7);
+
+CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, actor_id INTEGER, release_year INTEGER);
+
+INSERT INTO movies (title, actor_id,  release_year) VALUES ("Man of Steel", 10, 2013);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("The Bubble", 18, 2022);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Juno", 14, 2007);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Black Swan", 7, 2010);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Deadpool", 13, 2016);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Ride the Eagle", 16, 2021);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Madtown", 12, 2016);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("ParaNorman", 3, 2012);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Skyfall", 11, 2012);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Volver", 1, 2006);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Wreck-It Ralph", 5, 2012);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("A Quiet Place", 15, 2018);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("Into the Woods", 4, 2014);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("The To Do List", 8, 2013);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("She's All That", 17, 1999);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("The Grudge", 2, 2004);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("The Age of Adaline", 6, 2015);
+INSERT INTO movies (title, actor_id, release_year) VALUES ("The Butterfly Effect", 9, 2004);
+
+CREATE TABLE marriages (id INTEGER PRIMARY KEY AUTOINCREMENT, actor1_id INTEGER, actor2_id INTEGER);
+
+INSERT INTO marriages (actor1_id, actor2_id) VALUES (1, 11);
+INSERT INTO marriages (actor1_id, actor2_id) VALUES (2, 17);
+INSERT INTO marriages (actor1_id, actor2_id) VALUES (4, 15);
+INSERT INTO marriages (actor1_id, actor2_id) VALUES (6, 13);
+INSERT INTO marriages (actor1_id, actor2_id) VALUES (7, 9);
+
+
+#1. Show which actors appear in which films and what year the films were released.
+SELECT a.full_name, m.title, m.release_year
+FROM actors a
+LEFT JOIN movies m
+ON a.id = m.actor_id;
+
+#2. Show which actors are married to eachother.
+SELECT a.full_name AS wife, b.full_name AS husband
+FROM marriages m
+LEFT JOIN actors a
+ON a.id = m.actor1_id
+LEFT JOIN actors b
+ON b.id = m.actor2_id;
+
+#3. Which actor has the highest number of awards?
+SELECT full_name AS most_award_winning_actor
+FROM actors
+ORDER BY total_awards DESC LIMIT 1;
+
+SELECT full_name, MAX(total_awards) AS total_awards
+FROM actors;
+
+#4. Which actors are under the age of 40?
+SELECT full_name, age
+FROM actors
+WHERE age < 40
+ORDER BY age ASC;
